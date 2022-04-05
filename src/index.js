@@ -10,14 +10,15 @@ import ReactDOM from 'react-dom';
 //import { FocusScreen } from './components/04-useRef/FocusScreen';
 //import { RealExampleRef } from './components/04-useRef/RealExampleRef'
 //import { Layout } from './components/05-useLayoutEffect/Layout';
-import { Memorize } from './components/06-memos/Memorize';
-import './index.css';
+//import { Memorize } from './components/06-memos/Memorize';
+
+import { AutoComp } from './components/autocomplete/auto'
 
 //const divRoot = document.querySelector('#root');
 
 
 ReactDOM.render(
-    <Memorize />,
+    <AutoComp />,
     document.getElementById('root')
 );
 
