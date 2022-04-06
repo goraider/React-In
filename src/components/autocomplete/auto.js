@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import CrudService from '../../services/api.service'
-import '../02-useEffect/Effects.css';
+import './autocomplete.css';
 
 export const AutoComp = () => {
 
     const [ countries, setCountries ] = useState([]);
     const [ text, setText ] = useState('');
-    const [ suggestions, setSuggestions ] = useState([]);
+    const [ coincidences, setCoincidences ] = useState([]);
 
     useEffect( () =>{
         const loadCountries = async () => {
@@ -19,17 +19,18 @@ export const AutoComp = () => {
 
     const onChangeHandler = (text) => {
         let matches = [];
-        if(text.lenght > 0){
+
+        if(text.length > 0){
 
             matches = countries.filter( countrie => {
-                const regex = new RegExp(`${text}`,"gi");
+                
+                const regex = new RegExp(`${text}`,'g');
                 return countrie.match(regex);
             })
 
         }
-        console.log(countries);
-        console.log("COUNCIDENCIAS", matches);
-        setSuggestions(matches)
+        console.log('matches',matches);
+        setCoincidences(matches)
         setText(text)
     }
 
@@ -39,14 +40,18 @@ export const AutoComp = () => {
         <div>
             <h1>Autocomplete</h1>
             <hr />
-            
-
             <input
-            type="text" className="col-md-12"
-            onChange={ e =>onChangeHandler(e.target.value) }
-            value={ text }
-            
+                type="text" className="col-md-12"
+                onChange={ e =>onChangeHandler(e.target.value) }
+                value={ text }
             />
+            { coincidences && coincidences.map((coincidences, i) =>
+                <div
+                  className='coincidence col-md-12 justify-content-md-center'
+                >
+                    { coincidences }
+                </div>
+            )}
 
         </div>
     )
