@@ -2,11 +2,11 @@ import http from "../api-conexion";
 
 class CrudService {
 
-  getAll() {
+  getAllCountries() {
     return http.get("/timezone");
   }
-  get(id) {
-    return http.get(`/tutorials/${id}`);
+  getTimeZoneCountrie(countrie) {
+    return http.get(`/timezone/${countrie}`);
   }
   create(data) {
     return http.post("/tutorials", data);

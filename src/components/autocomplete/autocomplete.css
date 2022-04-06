@@ -1,3 +1,7 @@
+body {
+    margin:2rem;
+}
+
 .coincidence{
     cursor: pointer;
     border-right: 1px solid black;
@@ -6,5 +10,23 @@
 }
 
 .coincidence:hover{
-    background-color: gray;
+    background-color: rgb(190, 190, 190);
+    border-radius: 10px 10px 10px 10px;
 }
+
+.form-rounded {
+    border-radius: 1rem;
+}
+.input-search {
+    background-color: rgb(233, 233, 233);
+}
+
+.card-stile{
+    
+    width:100%;
+    border-radius: 10px;
+}
+
+
+
+
