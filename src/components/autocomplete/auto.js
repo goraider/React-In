@@ -8,12 +8,13 @@ export const AutoComp = () => {
     const [ text, setText ] = useState('');
     const [ timeZone, setTimeZone ] = useState([]);
     const [ coincidences, setCoincidences ] = useState([]);
+    
 
     useEffect( () =>{
         const loadCountries = async () => {
             const response =  await CrudService.getAllCountries();
             setCountries(response.data);
-            
+
         }
         loadCountries();
     },[])
@@ -25,7 +26,7 @@ export const AutoComp = () => {
         if(text.length > 0){
 
             matches = countries.filter( countrie => {
-                
+
                 const regex = new RegExp(`${text}`,'g');
                 return countrie.match(regex);
             })
@@ -36,11 +37,11 @@ export const AutoComp = () => {
         setText(text)
     }
 
-    const toInputUppercase = e => {
-        
+    const inputToUppercase = e => {
+
         e.target.value = ("" + e.target.value).charAt(0).toUpperCase() + e.target.value.substr(1);
     };
-    
+
     const onCoincidenceHandler = (text) => {
 
         setText(text);
@@ -59,9 +60,22 @@ export const AutoComp = () => {
                 timeZoneCountrie.data
             ])
             console.log("xxxx", timeZone);
-            
+
         }
         loadTimeZoneCountrie();
+    }
+
+    const removeCountryListHandler = (i) => {
+
+        let country = [...timeZone];
+        console.log(country);
+
+        
+        if (i !== -1) {
+          country.splice(i, 1);
+          setTimeZone(country);
+        }
+
     }
 
 
@@ -74,10 +88,10 @@ export const AutoComp = () => {
             <div className="row">
                 <div className="col-4">
                     <input
-                        type="text" className="col-4 form-control form-rounded input-search "
+                        type="text" className="col-4 form-control form-rounded input-search"
                         placeholder="Find country - Press keyboard letter..."
-                        onChange={ e =>onChangeHandler(e.target.value) }
-                        onKeyPress={ toInputUppercase }
+                        onChange={ e => onChangeHandler(e.target.value) }
+                        onKeyPress={ inputToUppercase }
                         value={ text }
                         onBlur={()=>{
                             setTimeout(() => {
@@ -86,45 +100,52 @@ export const AutoComp = () => {
                         }}
                     />
                 </div>
-                
+
             </div>
 
 
             { coincidences && coincidences.map((coincidences, i) =>
                 <div key={i} className='coincidence border-0'
-                onClick={() => onCoincidenceHandler(coincidences) }>
+                onClick={ () => onCoincidenceHandler(coincidences) }>
                     { coincidences }
                 </div>
             )}
 
             <hr />
 
-            {   
+            {
                 timeZone && timeZone.map( (items, i) =>(
 
-                        <div  key={i} className='card card-stile' >
+                        <div key={i} className='card card-stile' >
 
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-1">
-                                            <i class="fa-solid fa-trash"></i>
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-1">
+
+                                            <button type="button" className="btn btn-light"
+
+                                                onClick={() => removeCountryListHandler(i) }
+                                            >
+                                                <i className="fa-solid fa-trash"></i>
+                                            </button>
+
                                         </div>
-                                        <div class="col-6">
+                                        <div className="col-6">
                                             <h5 className="card-title">{ items.timezone }</h5>
                                             <h6 className='card-subtitle text-muted'>{ items.abbreviation }</h6>
                                             <p className='card-text'>{ items.datetime }</p>
                                         </div>
                                         {/* <div class="col-1">
-                                            
+
                                         </div> */}
-                                        <div class="col-2">
-                                            
-                                        </div>
+                                        {/* <div className="col-2">
+
+                                        </div> */}
                                     </div>
                                 </div>
                         </div>
 
-                        
+
 
                     // console.log('test', items);
                     // return <li key={i}>{items.timezone}</li>
