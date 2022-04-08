@@ -12,13 +12,13 @@ import ReactDOM from 'react-dom';
 //import { Layout } from './components/05-useLayoutEffect/Layout';
 //import { Memorize } from './components/06-memos/Memorize';
 
-import { AutoComp } from './components/autocomplete/auto'
+import { TimeZoneCustom } from './components/time-zone/TimeZoneCustom'
 
 //const divRoot = document.querySelector('#root');
 
 
 ReactDOM.render(
-    <AutoComp />,
+    <TimeZoneCustom />,
     document.getElementById('root')
 );
 

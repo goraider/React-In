@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import CrudService from '../../services/api.service'
-import './autocomplete.css';
+import CrudService from '../../services/api.service';
+import moment from 'moment-timezone';
+import './TimeZoneStyle.css';
 
-export const AutoComp = () => {
+export const TimeZoneCustom = () => {
 
     const [ countries, setCountries ] = useState([]);
     const [ text, setText ] = useState('');
     const [ timeZone, setTimeZone ] = useState([]);
     const [ coincidences, setCoincidences ] = useState([]);
-    
 
     useEffect( () =>{
         const loadCountries = async () => {
@@ -24,15 +24,12 @@ export const AutoComp = () => {
         let matches = [];
 
         if(text.length > 0){
-
             matches = countries.filter( countrie => {
 
                 const regex = new RegExp(`${text}`,'g');
                 return countrie.match(regex);
             })
-
         }
-
         setCoincidences(matches)
         setText(text)
     }
@@ -43,24 +40,19 @@ export const AutoComp = () => {
     };
 
     const onCoincidenceHandler = (text) => {
-
         setText(text);
         setCoincidences([]);
         getTimeZoneHandler(text);
     }
 
     const getTimeZoneHandler = (text) => {
-
         const loadTimeZoneCountrie = async () => {
-
             const timeZoneCountrie =  await CrudService.getTimeZoneCountrie(text);
-
             setTimeZone([
                 ...timeZone,
                 timeZoneCountrie.data
             ])
             console.log("xxxx", timeZone);
-
         }
         loadTimeZoneCountrie();
     }
@@ -78,13 +70,30 @@ export const AutoComp = () => {
 
     }
 
+    const timeZoneFormatHandler = (datetime, timezone) => {
+
+        let time = moment(datetime).tz(timezone).format("h:mm:ss a");
+
+        return time;
+
+    };
+
+    const dateZoneFormatHandler = (datetime, timezone) => {
+        
+        let date = moment(datetime).tz(timezone).format("ddd, MMMM Do YYYY");
+
+        return date;
+    }
+
+
 
     return (
+
+        <React.StrictMode>
 
         <div>
             <h1>WorldtimeLite</h1>
             <hr />
-
             <div className="row">
                 <div className="col-4">
                     <input
@@ -132,8 +141,10 @@ export const AutoComp = () => {
                                         </div>
                                         <div className="col-6">
                                             <h5 className="card-title">{ items.timezone }</h5>
-                                            <h6 className='card-subtitle text-muted'>{ items.abbreviation }</h6>
-                                            <p className='card-text'>{ items.datetime }</p>
+                                            <h6 className='card-subtitle text-muted'> {  timeZoneFormatHandler(items.datetime, items.timezone) } { items.abbreviation }</h6>
+                                            <p className='card-text'>
+                                               { dateZoneFormatHandler(items.datetime, items.timezone) } 
+                                            </p>
                                         </div>
                                         {/* <div class="col-1">
 
@@ -154,11 +165,12 @@ export const AutoComp = () => {
 
 
 
-            { JSON.stringify(timeZone) }
+            {/* { JSON.stringify(timeZone) } */}
 
 
 
         </div>
+        </React.StrictMode>
     )
 }
 
