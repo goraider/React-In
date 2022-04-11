@@ -9,6 +9,8 @@ export const TimeZoneCustom = () => {
     const [ text, setText ] = useState('');
     const [ timeZone, setTimeZone ] = useState([]);
     const [ coincidences, setCoincidences ] = useState([]);
+    
+    const [ hours, setHours ] = useState([]);
 
     useEffect( () =>{
         const loadCountries = async () => {
@@ -52,9 +54,11 @@ export const TimeZoneCustom = () => {
                 ...timeZone,
                 timeZoneCountrie.data
             ])
+            printHoursTimeZoneHandler(timeZoneCountrie.data);
             console.log("xxxx", timeZone);
         }
         loadTimeZoneCountrie();
+        
     }
 
     const removeCountryListHandler = (i) => {
@@ -83,6 +87,19 @@ export const TimeZoneCustom = () => {
         let date = moment(datetime).tz(timezone).format("ddd, MMMM Do YYYY");
 
         return date;
+    }
+
+    const printHoursTimeZoneHandler = (obj) => {
+
+        let hours = [];
+        for (let hour = 1; hour < 24; hour++) {
+
+            hours.push( moment(obj.datetime).add(hour, 'h').tz(obj.timezone).format("h a")  );
+        }
+
+        console.log("Hrs. ",hours);
+        setHours([hours]);
+
     }
 
 
@@ -139,22 +156,42 @@ export const TimeZoneCustom = () => {
                                             </button>
 
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col">
                                             <h5 className="card-title">{ items.timezone }</h5>
                                             <h6 className='card-subtitle text-muted'> {  timeZoneFormatHandler(items.datetime, items.timezone) } { items.abbreviation }</h6>
                                             <p className='card-text'>
                                                { dateZoneFormatHandler(items.datetime, items.timezone) } 
                                             </p>
                                         </div>
-                                        {/* <div class="col-1">
 
-                                        </div> */}
-                                        {/* <div className="col-2">
+                                        <div className="col-8">
 
-                                        </div> */}
+                                        <div className="d-flex flex-row bd-highlight mb-3">
+                                            {
+
+                                                hours && hours.map( (hour, j) =>(
+
+                                                    
+                                                        <div key={j} className="p-2 bd-highlight">
+                                                                <h4>{hour}</h4>
+                                                        </div>
+
+                                                ))
+
+                                            }
+                                        </div>
+
+
+                                        </div>
+
+
+
                                     </div>
+
                                 </div>
                         </div>
+
+                        
 
 
 
@@ -166,6 +203,8 @@ export const TimeZoneCustom = () => {
 
 
             {/* { JSON.stringify(timeZone) } */}
+
+
 
 
 
