@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CrudService from '../../services/api.service';
 import moment from 'moment-timezone';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import './TimeZoneStyle.css';
 
 export const TimeZoneCustom = () => {
@@ -92,15 +93,42 @@ export const TimeZoneCustom = () => {
     const printHoursTimeZoneHandler = (obj) => {
 
         let hours = [];
-        for (let hour = 1; hour < 24; hour++) {
 
-            hours.push( moment(obj.datetime).add(hour, 'h').tz(obj.timezone).format("h a")  );
+        for (let hour = 1; hour < 35; hour++) {
+
+            let object_hours = {
+                hour: moment(obj.datetime).add(hour, 'h').tz(obj.timezone).format("h a")
+            };
+
+            hours.push(  object_hours );
         }
 
         console.log("Hrs. ",hours);
-        setHours([hours]);
+        setHours(hours);
 
     }
+
+    const LeftArrow = () => {
+        const { isFirstItemVisible, scrollPrev } =
+          React.useContext(VisibilityContext);
+      
+        return (
+          <div disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </div>
+        );
+      }
+      
+      const RightArrow = () => {
+        const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
+      
+        return (
+          <div disabled={isLastItemVisible} onClick={() => scrollNext()}>
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </div>
+        );
+      }
+      
 
 
 
@@ -166,23 +194,41 @@ export const TimeZoneCustom = () => {
 
                                         <div className="col-8">
 
-                                        <div className="d-flex flex-row bd-highlight mb-3">
-                                            {
+                                            {/* <div className="d-flex flex-row bd-highlight mb-3">
+                                                {
 
-                                                hours && hours.map( (hour, j) =>(
+                                                    hours && hours.map( (hour, j) =>(
 
-                                                    
-                                                        <div key={j} className="p-2 bd-highlight">
-                                                                <h4>{hour}</h4>
-                                                        </div>
+                                                        
+                                                            <div key={j} className="p-2 bd-highlight">
+                                                                    {hour.hour}
+                                                            </div>
 
-                                                ))
+                                                    ))
 
-                                            }
+                                                }
+                                            </div> */}
+
+                                            {/* <ScrollMenu
+                                                LeftArrow={LeftArrow} RightArrow={RightArrow}
+                                                data={ hours.map( (hour, j) =>(
+                                                    <div key={j} className="p-2 bd-highlight">
+                                                        {hour.hour}
+                                                    </div>
+                                                ))}
+                                            /> */}
+
+                                            <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+                                                {hours.map( (hour, j) =>(
+                                                    <div key={j} className="p-2 bd-highlight box-hour">
+                                                        <strong className='element-box'>{hour.hour}</strong>
+                                                    </div>
+                                                ))}
+                                            </ScrollMenu>
+
                                         </div>
 
 
-                                        </div>
 
 
 

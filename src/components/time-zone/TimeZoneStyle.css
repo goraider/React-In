@@ -26,8 +26,19 @@ body {
     width:100%;
     border-radius: 10px;
 }
-.hour-flex {
-    background-color: rgb(226, 28, 28);
+
+.box-hour {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(235, 235, 235);
+    font-size: medium;
+    border-radius: 10px 10px 10px 10px;
+    
+  }
+.element-box{
+    padding: 5px;
+    
 }
 
 
