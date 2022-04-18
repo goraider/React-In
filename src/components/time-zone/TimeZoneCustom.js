@@ -18,11 +18,16 @@ export const TimeZoneCustom = () => {
 
 
     useEffect(() => {
+        asynCountries();
+    },[])
+
+    const asynCountries = () => {
+
         try {
 
             setLoading(true);
 
-            const loadCountries = async () => {
+           const loadCountries = async () => {
                 const response =  await CrudService.getAllCountries();
                 setCountries(response.data);
 
@@ -35,7 +40,7 @@ export const TimeZoneCustom = () => {
             setLoading(false);
             console.log(error);
         }
-    },[])
+    }
 
     const onChangeHandler = (text) => {
         let matches = [];
@@ -70,7 +75,6 @@ export const TimeZoneCustom = () => {
                 timeZoneCountrie.data
             ])
             printHoursTimeZoneHandler(timeZoneCountrie.data);
-            console.log("xxxx", timeZone);
         }
         loadTimeZoneCountrie();
 
@@ -84,6 +88,13 @@ export const TimeZoneCustom = () => {
           country.splice(i, 1);
           setTimeZone(country);
         }
+
+        let active_hours = hours.filter((active) =>{
+            return active.time_zone !== items.timezone
+        });
+
+        setHours(active_hours);
+
     }
 
     const timeZoneFormatHandler = (datetime, timezone) => {
@@ -106,7 +117,7 @@ export const TimeZoneCustom = () => {
         let hours_country = [];
         let arr_hours = {};
 
-        for (let hour = 1; hour < 35; hour++) {
+        for (let hour = 1; hour < 72; hour++) {
 
             arr_hours = {
 
@@ -131,8 +142,6 @@ export const TimeZoneCustom = () => {
 
     }
 
-
-
     return (
         <React.StrictMode>
             <div>
@@ -155,6 +164,7 @@ export const TimeZoneCustom = () => {
                             <div className="col-4">
                                 <input
                                     type="text" className="col-4 form-control form-rounded input-search"
+                                    id="world-timezone-autocomplete"
                                     placeholder="Find country - Press keyboard letter and Select to Country..."
                                     onChange={ e => onChangeHandler(e.target.value) }
                                     onKeyPress={ inputToUppercase }
@@ -246,6 +256,8 @@ export const TimeZoneCustom = () => {
         </React.StrictMode>
     )
 }
+export default TimeZoneCustom;
+
 
 
 
