@@ -19,7 +19,8 @@ export const TimeZoneCustom = () => {
 
     useEffect(() => {
         asynCountries();
-    },[])
+    },[]);
+
 
     const asynCountries = () => {
 
@@ -72,7 +73,7 @@ export const TimeZoneCustom = () => {
             const timeZoneCountrie =  await CrudService.getTimeZoneCountrie(text);
             setTimeZone([
                 ...timeZone,
-                timeZoneCountrie.data
+                timeZoneCountrie.data,
             ])
             printHoursTimeZoneHandler(timeZoneCountrie.data);
         }
@@ -183,7 +184,7 @@ export const TimeZoneCustom = () => {
 
                 {
                     coincidences && coincidences.map((coincidences, i) =>
-                        <div key={i} className='coincidence border-0'
+                        <div key={i} id="coincidences" className='coincidence border-0'
                             onClick={ () => onCoincidenceHandler(coincidences) }>
                             { coincidences }
                         </div>
@@ -195,13 +196,13 @@ export const TimeZoneCustom = () => {
                 {
                     timeZone && timeZone.map( (items, i) =>(
 
-                            <div key={i} className='card card-stile' >
+                            <div key={i} id='time-zone-card' className='card card-stile' >
 
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-1">
 
-                                                <button type="button" className="btn btn-light"
+                                                <button type="button" id='remove-item' className="btn btn-light"
 
                                                     onClick={() => removeCountryListHandler(items,i) }
                                                 >

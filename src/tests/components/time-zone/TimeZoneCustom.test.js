@@ -3,12 +3,14 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import { shallow, mount } from 'enzyme';
 import { TimeZoneCustom } from '../../../components/time-zone/TimeZoneCustom';
 
-
 describe('Renderizando el componente TimeZoneCustom', () => {
+
       
     test('Carga el Render del Componente', () => { 
+
         const wrapper =  shallow(<TimeZoneCustom />);
         expect( wrapper ).toMatchSnapshot();
+
     });
 
     test('Cargar la cabecera del componente sin Fallar ', () => {
@@ -18,5 +20,14 @@ describe('Renderizando el componente TimeZoneCustom', () => {
         expect(wrapper.contains(header)).toBe(true);
     
     });
+
+    
+    test('Prueba input Autocomplet que este vacio al iniciar', () => {
+        
+        const wrapper = mount(<TimeZoneCustom />)
+        expect(wrapper.find('#world-timezone-autocomplete').get(0).props.value).toEqual("");
+
+    })
+    
 
 })
