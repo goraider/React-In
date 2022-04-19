@@ -14,12 +14,39 @@ export const TimeZoneCustom = () => {
     const [ coincidences, setCoincidences ] = useState([]);
 
     const [ hours, setHours ] = useState([]);
-
-
-
+    const inicialCountries = ["Europe/London", "America/Mexico_City", "Asia/Tokyo"];
+    
     useEffect(() => {
         asynCountries();
     },[]);
+
+
+
+    const initialCountries = async () => {
+
+        setLoading(true);
+        let arr = [];
+        
+        for(let key in inicialCountries){
+            
+            await fetch( `http://worldtimeapi.org/api/timezone/${inicialCountries[key]}`)
+
+            .then( resp => resp.json() )
+            .then( data => {
+
+                arr.push(data);
+                printHoursTimeZoneHandler(data);
+                
+            });
+        }
+
+        setTimeZone(arr);
+
+        
+        setLoading(false);
+
+
+    }
 
 
     const asynCountries = () => {
@@ -34,7 +61,7 @@ export const TimeZoneCustom = () => {
 
             }
             loadCountries();
-
+            initialCountries();
             setLoading(false);
         } catch (error) {
 
@@ -194,7 +221,19 @@ export const TimeZoneCustom = () => {
                 <hr />
 
                 {
-                    timeZone && timeZone.map( (items, i) =>(
+
+                    loading
+                    ?
+                    (
+                        <div className="alert alert-info text-center">
+                            Loading...
+                        </div>
+                    )
+                    :
+                    (
+
+                    
+                        timeZone && timeZone.map( (items, i) =>(
 
                             <div key={i} id='time-zone-card' className='card card-stile' >
 
@@ -248,8 +287,10 @@ export const TimeZoneCustom = () => {
 
                                     </div>
                             </div>
-                    ))
+                        ))
+                    )
                 }
+
 
                 {/* { JSON.stringify(timeZone) } */}
 
